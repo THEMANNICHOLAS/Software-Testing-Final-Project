@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="MyTestSuite">
+    <test name="MyTests">
+        <classes>
+            <class name="BaseClass"/>
+            <class name="TestDownload"/>
+            <class name="TestFriendTab"/>
+            <class name="TestHomePage"/>
+            <class name="TestLogin"/>
+            <class name="TestSupportPage"/>
+            <class name="TestUserAudio"/>
+            <class name="TestUserInbox"/>
+            <class name="TestUserSettings"/>
+            <!-- You can add more test classes here -->
+        </classes>
+    </test>
+</suite>
