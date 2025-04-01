@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 public class BaseClass {
-    private WebDriver driver;
+    public WebDriver driver;
 
     @BeforeSuite
     public void setup(){
