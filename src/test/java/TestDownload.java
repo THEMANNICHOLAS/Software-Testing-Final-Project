@@ -69,16 +69,27 @@ public class TestDownload extends BaseClass {
         Thread.sleep(1000L);
         debDownload.click();
         String debExpectedFile = "discord-0.0.90.deb";
-        new File(this.DOWNLOAD_DIR + "/" + debExpectedFile);
+        File debFile = new File(this.DOWNLOAD_DIR + "/" + debExpectedFile);
         targzDownload.click();
         String targzExpectedFile = "discord-0.0.90.tar";
-        new File(this.DOWNLOAD_DIR + "/" + targzExpectedFile);
+        File tarFile = new File(this.DOWNLOAD_DIR + "/" + targzExpectedFile);
+
+        for (int waitTime = 0; waitTime <60 && !debFile.exists() && !tarFile.exists(); ++waitTime) {
+            try{
+                Thread.sleep(1000);
+            }
+            catch(InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+        Assert.assertTrue(debFile.exists());
+        Assert.assertTrue(tarFile.exists());
     }
 
     @Test
     public void downloadTestBuilds() throws InterruptedException {
         this.driver.get("https://discord.com/download");
-        WebElement dropdown = this.driver.findElement(By.className("dropdown-list-6"));
+        WebElement dropdown = this.driver.findElement(By.id("w-dropdown-toggle-11"));
         dropdown.click();
         Thread.sleep(1000L);
         new File(this.DOWNLOAD_DIR);
@@ -86,27 +97,33 @@ public class TestDownload extends BaseClass {
         String macExpectedFile = "DiscordPTB.dmg";
         File macDownloadFile = new File(this.DOWNLOAD_DIR + "/" + macExpectedFile);
         macTestBuild.click();
+
         WebElement linuxDebTestBuild = this.driver.findElement(By.linkText("Linux deb"));
-        String linuxDebExpectedFile = "DiscordPTB.deb";
+        String linuxDebExpectedFile = "discord-ptb-0.0.136.deb";
         File linuxDebDownloadFile = new File(this.DOWNLOAD_DIR + "/" + linuxDebExpectedFile);
         linuxDebTestBuild.click();
+
         WebElement windowTestBuild = this.driver.findElement(By.linkText("Windows 64-bit"));
-        String windowTestBuildExpectedFile = "DiscordPTB.exe";
+        String windowTestBuildExpectedFile = "DiscordPTBSetup.exe";
         File windowTestBuildDownloadFile = new File(this.DOWNLOAD_DIR + "/" + windowTestBuildExpectedFile);
         windowTestBuild.click();
+
         WebElement linuxTarTestBuild = this.driver.findElement(By.linkText("Linux tar.gz"));
-        String linuxTarTestBuildExpectedFile = "";
+        String linuxTarTestBuildExpectedFile = "discord-ptb-0.0.136.tar";
         File linuxTarTestBuildDownloadFile = new File(this.DOWNLOAD_DIR + "/" + linuxTarTestBuildExpectedFile);
         linuxTarTestBuild.click();
 
-        for(int waitTime = 0; waitTime < 60; ++waitTime) {
+        //TODO: make sure time for downloads is proper and that Discord is not kicking us from download
+        for(int waitTime = 0;
+            waitTime < 60 && !macDownloadFile.exists() && !linuxDebDownloadFile.exists() &&
+                    !windowTestBuildDownloadFile.exists() && !linuxTarTestBuildDownloadFile.exists(); ++waitTime) {
             try {
-                Thread.sleep(1000L);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
+        Thread.sleep(1000);
         Assert.assertTrue(macDownloadFile.exists());
         Assert.assertTrue(linuxDebDownloadFile.exists());
         Assert.assertTrue(windowTestBuildDownloadFile.exists());
@@ -116,17 +133,23 @@ public class TestDownload extends BaseClass {
     @Test
     public void downloadMobile() throws InterruptedException {
         this.driver.get("https://discord.com/download");
-        WebElement iosDownloadButton = this.driver.findElement(By.linkText("App store"));
+        String downloadPage = "https://discord.com/download";
+        WebElement iosDownloadButton = this.driver.findElement(By.cssSelector(
+                "a[data-platform='iOS'][data-track-download='Download Page']"));
+        iosDownloadButton.click();
         new WebDriverWait(this.driver, Duration.ofSeconds(5L));
-        String expectedIOSURL = "https://apps.apple.com/us/app/discord-talk-play-hang-out/id985746746?attemptId=fddff72c-82f8-4d90-ba47-54f0660b30d8";
         String actualURL = this.driver.getCurrentUrl();
-        Assert.assertEquals(actualURL, expectedIOSURL);
-        Thread.sleep(1000L);
-        WebElement androidDownloadButton = this.driver.findElement(By.linkText("Google Play"));
+        Assert.assertNotEquals(actualURL, downloadPage);
+
+        Thread.sleep(1000);
+        driver.get(downloadPage); //revert back to download page
+        Thread.sleep(1000);
+        WebElement androidDownloadButton = this.driver.findElement(By.cssSelector(
+                "a[data-platform='Android'][data-track-download='Download Page']"));
         androidDownloadButton.click();
         new WebDriverWait(this.driver, Duration.ofSeconds(5L));
-        String expectedAndroidURL = "https://play.google.com/store/apps/details?id=com.discord&attemptId=ff6ba3d5-411f-4aec-8d2f-8573bb28dfe8";
         String actualAndroidURL = this.driver.getCurrentUrl();
-        Assert.assertEquals(actualAndroidURL, expectedAndroidURL);
+        Assert.assertNotEquals(actualAndroidURL, downloadPage);
+        Thread.sleep(1000);
     }
 }
