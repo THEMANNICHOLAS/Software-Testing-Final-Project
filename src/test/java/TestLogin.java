@@ -15,15 +15,18 @@ public class TestLogin extends BaseClass {
     @Test
     public void testLoginWithValidCredentials() throws InterruptedException {
         driver.get("https://discord.com/login");
-
         Thread.sleep(3000);
+
+        // Use valid credentials
         WebElement emailField = driver.findElement(By.name("email"));
         Thread.sleep(3000);
         WebElement passwordField = driver.findElement(By.name("password"));
         Thread.sleep(3000);
-        emailField.sendKeys("SoftwareTestingDK@gmail.com");
-        passwordField.sendKeys("PaulBlart123!");
+        emailField.sendKeys("SoftwareTestingDK@mail.com"); // CHANGE IF DISCORD ACCOUNT IS DISABLED
+        passwordField.sendKeys("PaulBlart123!"); // CHANGE IF DISCORD ACCOUNT IS DISABLED
         Thread.sleep(3000);
+
+        // Log in
         passwordField.submit(); // Instead of using Login button
         Thread.sleep(6000);
 
@@ -34,12 +37,16 @@ public class TestLogin extends BaseClass {
     public void testLoginWithInvalidCredentials() throws InterruptedException {
         driver.get("https://discord.com/login");
         Thread.sleep(3000);
+
+        // Use invalid credentials
         WebElement emailField = driver.findElement(By.name("email"));
         WebElement passwordField = driver.findElement(By.name("password"));
         Thread.sleep(3000);
-        emailField.sendKeys("NotSoftwareTestingDK@gmail.com");
-        passwordField.sendKeys("wrongpassword123!");
+        emailField.sendKeys("NotSoftwareTestingDK@gmail.com"); // Do not change
+        passwordField.sendKeys("wrongpassword123!"); // Do not change
         Thread.sleep(3000);
+
+        // Log in
         passwordField.submit(); // Instead of using login button
         Thread.sleep(3000);
 
@@ -59,17 +66,19 @@ public class TestLogin extends BaseClass {
         // Click the "Forgot your password?" link
         WebElement forgotPasswordLink = driver.findElement(By.className("contents__201d5"));
         forgotPasswordLink.click();
-        Thread.sleep(3000); // Give it time to process the password reset
+        Thread.sleep(3000);
     }
 
     // This checks if there is a QR code on the login page
     @Test
     public void testQRCodeIsDisplayed() throws InterruptedException {
         driver.get("https://discord.com/login");
-
         Thread.sleep(3000);
+
+        // Check for QR Code
         WebElement qrImage = driver.findElement(By.xpath("//*[@id=\"app-mount\"]/div[2]/div[1]/div[1]/div/div/div/div/form/div[2]/div/div[3]/div/div/div/div[1]"));
 
+        // Condition: QR is either displayed or not displayed
         if (qrImage.isDisplayed()) {
             System.out.println("QR Code is displayed successfully.");
         } else {
@@ -79,6 +88,8 @@ public class TestLogin extends BaseClass {
         Thread.sleep(3000);
     }
 
+    // This checks the page title and elements on the page
+    // NOTE: The way Discord is set up there should be no links on the login page
     @Test
     public void testPageTitleAndElements() {
         // Open the Discord login page
