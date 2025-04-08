@@ -47,6 +47,7 @@ public class BaseClass {
         options.addArguments("--disable-blink-features=AutomationControlled");
     }
 
+
     @BeforeMethod
     public void beforeMethod(){
         // Use the ChromeOptions when instantiating the ChromeDriver
