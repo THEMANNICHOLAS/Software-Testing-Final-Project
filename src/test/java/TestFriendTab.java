@@ -27,19 +27,18 @@ public class TestFriendTab extends BaseClass {
         driver.get("https://discord.com/login");
         WebElement emailField = driver.findElement(By.name("email"));
         WebElement passwordField = driver.findElement(By.name("password"));
-        emailField.sendKeys("SoftwareTestingDK@gmail.com");
+        emailField.sendKeys("softwareTestingdk@mail.com");
         passwordField.sendKeys("PaulBlart123!");
         passwordField.submit(); // Instead of using Login button
     }
 
     @Test
     public void testViewPending() throws InterruptedException {
-
-        //Could also include a login function but Im too lazy.
         //CSS selector for the "Pending" tab after login
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebElement pendingTab = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
-                "div.item__133bf.item_b3f026.selected_b3f026.themed_b3f026")));
+                "div[role='tab'][aria-controls='pending-tab']")));
 
         //Must click on button
         Actions actions = new Actions(driver);
@@ -50,10 +49,11 @@ public class TestFriendTab extends BaseClass {
 
     @Test
     public void testAddFriend() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         //CSS selector for the "Add Friend" Tab
         WebElement addFriendTab = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
-                "div.item__133bf.addFriend__133bf.item_b3f026.themed_b3f026")));
+                "div[aria-label='Add Friend']")));
         Actions actions = new Actions(driver);
         actions.moveToElement(addFriendTab).click().perform();
         Thread.sleep(2000);
@@ -70,11 +70,12 @@ public class TestFriendTab extends BaseClass {
 
     @Test
     public void testAcceptFriend() throws InterruptedException {
+        driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         //A friend request was already sent from my personal account so we can test the feature.
         //A friend request is required to confirm this test.
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebElement acceptFriendButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
-                "div.actionButton_f8fa06.actionAccept_f8fa06")));
+                "div[aria-label='Accept'][role='button']")));
         Actions actions = new Actions(driver);
         actions.moveToElement(acceptFriendButton).click().perform();
         Thread.sleep(2000);
@@ -84,7 +85,8 @@ public class TestFriendTab extends BaseClass {
 
     @Test
     public void testSearchFriend() throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebElement friendSearchBar = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
                 "input[aria-label='Search']")));
         Thread.sleep(2000);
@@ -95,6 +97,7 @@ public class TestFriendTab extends BaseClass {
 
     @Test
     public void testRemoveFriend() throws InterruptedException {
+        driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebElement allButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
                 "div.item__133bf.item_b3f026.selected_b3f026.themed_b3f026")));
