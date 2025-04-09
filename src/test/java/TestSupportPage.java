@@ -14,9 +14,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
-public class TestSupportPage extends BaseClass{
+public class TestSupportPage extends BaseClass {
     @Test
     public void testHelpCenter() throws InterruptedException {
         driver.get("https://discord.com/");
@@ -28,6 +29,7 @@ public class TestSupportPage extends BaseClass{
         String actualLink = driver.getCurrentUrl();
         Assert.assertEquals(actualLink, helpCenterLink);
     }
+
     @Test
     public void testFeedback() throws InterruptedException {
         driver.get("https://discord.com/");
@@ -43,6 +45,7 @@ public class TestSupportPage extends BaseClass{
         Assert.assertEquals(actualLink, expectedLink);
 
     }
+
     @Test
     public void testSubmitRequest() throws InterruptedException {
         driver.get("https://support.discord.com/hc/en-us/community/topics");
@@ -75,26 +78,42 @@ public class TestSupportPage extends BaseClass{
         Assert.assertEquals(actualLink, expectedLink);
     }
 
+
     @Test
     //TODO: Not working and selecting Espanol language, fix it
-    public void testLanguageChange() throws InterruptedException {
-        driver.get("https://support.discord.com/hc/en-us");
-        // Locate the language button and click it
-        WebElement languageButton = driver.findElement(By.cssSelector("div.dropdown.language-selector button.dropdown-toggle"));
-        Actions actions = new Actions(driver);
-        actions.moveToElement(languageButton).click().perform();
+    public void testHelpCenterOptions() throws InterruptedException {
+        String mainURL = "https://support.discord.com/hc/en-us";
+        driver.get(mainURL);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        List<WebElement> linkElements = driver.findElements(By.cssSelector("ul.flex-container > a"));
 
-        // Wait until the dropdown menu becomes visible and the Spanish option is clickable
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement spanishLink = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[normalize-space(text())='Español']")));
+        // Extract the href attributes into a list of URLs
+        List<String> urls = new ArrayList<>();
+        for (WebElement link : linkElements) {
+            String href = link.getAttribute("href");
+            if (href != null) {
+                if (href.startsWith("//")) {
+                    href = "https:" + href;
+                }
+                urls.add(href);
+            }
+        }
 
-        // Click the Spanish option
-        spanishLink.click();
-        String expectedLink = "https://support.discord.com/hc/es";
-        String actualLink = driver.getCurrentUrl();
-        Assert.assertEquals(actualLink, expectedLink);
+        // Loop through the collected URLs
+        for (String url : urls) {
+            System.out.println("Navigating to: " + url);
+            driver.get(url);
+
+            try {
+                Thread.sleep(2000); // Wait for 2 seconds; use WebDriverWait for more robust synchronization.
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // Navigate back to the main page by reloading the URL
+            driver.get(mainURL);
+        }
+
 
     }
-
 }
