@@ -10,11 +10,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.time.Duration;
 
 public class TestUserAudio extends BaseClass {
 
+    @BeforeMethod
     public void loginToDiscordAudio() throws InterruptedException {
         driver.get("https://discord.com/login");
         Thread.sleep(3000);  // Wait for the page to load
@@ -36,7 +38,6 @@ public class TestUserAudio extends BaseClass {
     // Test joining a voice channel
     @Test
     public void testJoinVoiceChannel() throws InterruptedException {
-        loginToDiscordAudio(); // Now using the renamed method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -62,7 +63,6 @@ public class TestUserAudio extends BaseClass {
     // Test mute audio
     @Test
     public void testMuteAudio() throws InterruptedException {
-        loginToDiscordAudio(); // Using the renamed login method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -82,7 +82,6 @@ public class TestUserAudio extends BaseClass {
     // Test unmute audio
     @Test
     public void testUnmuteAudio() throws InterruptedException {
-        loginToDiscordAudio(); // Using the renamed login method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -102,7 +101,6 @@ public class TestUserAudio extends BaseClass {
     // Test microphone control (mute/unmute)
     @Test
     public void testMicControl() throws InterruptedException {
-        loginToDiscordAudio(); // Using the renamed login method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -119,7 +117,6 @@ public class TestUserAudio extends BaseClass {
     // Test speaker control (mute/unmute)
     @Test
     public void testSpeakerControl() throws InterruptedException {
-        loginToDiscordAudio(); // Using the renamed login method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 

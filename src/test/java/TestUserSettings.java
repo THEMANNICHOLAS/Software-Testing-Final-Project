@@ -13,12 +13,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.time.Duration;
 
 public class TestUserSettings extends BaseClass {
 
     // Renaming the login method to avoid conflicts with other test classes
+    @BeforeMethod
     public void loginToDiscordSettings() throws InterruptedException {
         driver.get("https://discord.com/login");
         Thread.sleep(3000);  // Wait for the page to load
@@ -40,7 +42,6 @@ public class TestUserSettings extends BaseClass {
     // Test open settings
     @Test
     public void testOpenSettings() throws InterruptedException {
-        loginToDiscordSettings(); // Using the renamed method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -60,7 +61,6 @@ public class TestUserSettings extends BaseClass {
     // Test update display name
     @Test
     public void testUpdateDisplayName() throws InterruptedException {
-        loginToDiscordSettings(); // Using the renamed login method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -72,7 +72,7 @@ public class TestUserSettings extends BaseClass {
 
         // Update display name
         WebElement displayNameField = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//input[@name='username']"))
+                By.cssSelector("button[aria-label='Edit display name']"))
         );
         displayNameField.clear();
         displayNameField.sendKeys("New Display Name");
@@ -93,7 +93,6 @@ public class TestUserSettings extends BaseClass {
     // Test change theme
     @Test
     public void testChangeTheme() throws InterruptedException {
-        loginToDiscordSettings(); // Using the renamed login method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -120,7 +119,7 @@ public class TestUserSettings extends BaseClass {
     // Test change language
     @Test
     public void testChangeLanguage() throws InterruptedException {
-        loginToDiscordSettings(); // Using the renamed login method
+
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -153,7 +152,7 @@ public class TestUserSettings extends BaseClass {
     // Test enable notifications
     @Test
     public void testEnableNotifications() throws InterruptedException {
-        loginToDiscordSettings(); // Using the renamed login method
+
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 

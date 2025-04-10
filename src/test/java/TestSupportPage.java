@@ -80,7 +80,6 @@ public class TestSupportPage extends BaseClass {
 
 
     @Test
-    //TODO: Not working and selecting Espanol language, fix it
     public void testHelpCenterOptions() throws InterruptedException {
         String mainURL = "https://support.discord.com/hc/en-us";
         driver.get(mainURL);

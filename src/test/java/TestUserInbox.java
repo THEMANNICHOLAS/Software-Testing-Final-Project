@@ -10,12 +10,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.time.Duration;
 
 public class TestUserInbox extends BaseClass {
 
     // Renamed the login method to avoid conflicts with other test classes
+    @BeforeMethod
     public void loginToDiscordInbox() throws InterruptedException {
         driver.get("https://discord.com/login");
         Thread.sleep(3000);  // Wait for the page to load
@@ -37,7 +39,6 @@ public class TestUserInbox extends BaseClass {
     // Test opening the inbox
     @Test
     public void testOpenInbox() throws InterruptedException {
-        loginToDiscordInbox(); // Use the renamed method for this test
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -57,7 +58,6 @@ public class TestUserInbox extends BaseClass {
     // Test sending a message
     @Test
     public void testSendMessage() throws InterruptedException {
-        loginToDiscordInbox(); // Using the renamed login method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -86,7 +86,6 @@ public class TestUserInbox extends BaseClass {
     // Test message input box visibility
     @Test
     public void testMessageInputBox() throws InterruptedException {
-        loginToDiscordInbox(); // Using the renamed login method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -100,7 +99,6 @@ public class TestUserInbox extends BaseClass {
     // Test unread message indicator
     @Test
     public void testUnreadMessageIndicator() throws InterruptedException {
-        loginToDiscordInbox(); // Using the renamed login method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -112,7 +110,6 @@ public class TestUserInbox extends BaseClass {
     // Test open a DM thread
     @Test
     public void testOpenDMThread() throws InterruptedException {
-        loginToDiscordInbox(); // Using the renamed login method
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 

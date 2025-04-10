@@ -24,32 +24,32 @@ public class TestFriendTab extends BaseClass {
     @BeforeMethod
     //Help function to log in first onto Discord
     public void login() throws InterruptedException {
-        driver.get("https://discord.com/login");
+        driver.get("https://discord.com/login/");
         WebElement emailField = driver.findElement(By.name("email"));
         WebElement passwordField = driver.findElement(By.name("password"));
-        emailField.sendKeys("softwareTestingdk@mail.com");
+        emailField.sendKeys("softwaretestingdk@mail.com");
         passwordField.sendKeys("PaulBlart123!");
-        passwordField.submit(); // Instead of using Login button
+        Thread.sleep(3000);
+        passwordField.submit();
+        Thread.sleep(2000);
     }
 
     @Test
     public void testViewPending() throws InterruptedException {
         //CSS selector for the "Pending" tab after login
-        driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
+        //driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebElement pendingTab = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
                 "div[role='tab'][aria-controls='pending-tab']")));
 
-        //Must click on button
-        Actions actions = new Actions(driver);
-        actions.moveToElement(pendingTab).click().perform();
+        pendingTab.click();
         Thread.sleep(2000);
 
     }
 
     @Test
     public void testAddFriend() throws InterruptedException {
-        driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
+        //driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         //CSS selector for the "Add Friend" Tab
         WebElement addFriendTab = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
@@ -70,7 +70,7 @@ public class TestFriendTab extends BaseClass {
 
     @Test
     public void testAcceptFriend() throws InterruptedException {
-        driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
+        //driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         //A friend request was already sent from my personal account so we can test the feature.
         //A friend request is required to confirm this test.
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -85,8 +85,11 @@ public class TestFriendTab extends BaseClass {
 
     @Test
     public void testSearchFriend() throws InterruptedException {
-        driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
+        //driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement allButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
+                "div[aria-controls='all-tab']")));
+        allButton.click();
         WebElement friendSearchBar = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
                 "input[aria-label='Search']")));
         Thread.sleep(2000);
@@ -97,16 +100,24 @@ public class TestFriendTab extends BaseClass {
 
     @Test
     public void testRemoveFriend() throws InterruptedException {
-        driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
+        //driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement allButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
-                "div.item__133bf.item_b3f026.selected_b3f026.themed_b3f026")));
+        WebElement allButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+                "//div[@role='tab' and normalize-space(text())='All']")));
         Actions action  = new Actions(driver);
         action.moveToElement(allButton).click().perform();
-        WebElement moreButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
-                "div.actionButton_f8fa06.highlight_f8fa06")));
+        WebElement moreButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("div.actionButton_f8fa06[aria-label='More']")));
         Thread.sleep(2000);
         action.moveToElement(moreButton).click().perform();
+        Thread.sleep(2000);
+        WebElement removeFriend = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+                "//div[normalize-space(text())='Remove Friend']")));
+        removeFriend.click();
+        Thread.sleep(2000);
+        WebElement confirmDeleteButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+                "//button[@type='submit' and contains(., 'Remove Friend')]")));
+        confirmDeleteButton.click();
         Thread.sleep(2000);
     }
 }
