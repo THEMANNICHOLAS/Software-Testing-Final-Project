@@ -6,9 +6,7 @@
  ***********************************************/
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
@@ -27,14 +25,14 @@ public class TestFriendTab extends BaseClass {
         driver.get("https://discord.com/login/");
         WebElement emailField = driver.findElement(By.name("email"));
         WebElement passwordField = driver.findElement(By.name("password"));
-        emailField.sendKeys("softwaretestingdk@mail.com");
+        emailField.sendKeys("softwaretestingdk2@mail.com");
         passwordField.sendKeys("PaulBlart123!");
-        Thread.sleep(3000);
+        Thread.sleep(6000);
         passwordField.submit();
         Thread.sleep(2000);
     }
 
-    @Test
+    @Test(priority = 1)
     public void testViewPending() throws InterruptedException {
         //CSS selector for the "Pending" tab after login
         //driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
@@ -47,7 +45,7 @@ public class TestFriendTab extends BaseClass {
 
     }
 
-    @Test
+    @Test(priority = 2)
     public void testAddFriend() throws InterruptedException {
         //driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -68,7 +66,7 @@ public class TestFriendTab extends BaseClass {
         Thread.sleep(2000);
     }
 
-    @Test
+    @Test(priority = 3)
     public void testAcceptFriend() throws InterruptedException {
         //driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         //A friend request was already sent from my personal account so we can test the feature.
@@ -83,12 +81,12 @@ public class TestFriendTab extends BaseClass {
 
     }
 
-    @Test
+    @Test(priority = 4)
     public void testSearchFriend() throws InterruptedException {
         //driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement allButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
-                "div[aria-controls='all-tab']")));
+        WebElement allButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+                "//div[@role='tab' and normalize-space(text())='All']")));
         allButton.click();
         WebElement friendSearchBar = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
                 "input[aria-label='Search']")));
@@ -98,7 +96,7 @@ public class TestFriendTab extends BaseClass {
         Thread.sleep(2000);
     }
 
-    @Test
+    @Test(priority = 5)
     public void testRemoveFriend() throws InterruptedException {
         //driver.get("https://discord.com/channels/@me"); //Account already logged in to prevent discord from banning us
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
