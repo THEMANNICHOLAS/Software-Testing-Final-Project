@@ -60,7 +60,7 @@ public class TestLogin extends BaseClass {
 
         // Enter email to enable the forgot password link
         WebElement emailField = driver.findElement(By.name("email"));
-        emailField.sendKeys("SoftwareTestingDK@gmail.com");
+        emailField.sendKeys("SoftwareTestingDK@mail.com");
         Thread.sleep(3000);
 
         // Click the "Forgot your password?" link
@@ -91,7 +91,7 @@ public class TestLogin extends BaseClass {
     // This checks the page title and elements on the page
     // NOTE: The way Discord is set up there should be no links on the login page
     @Test
-    public void testPageTitleAndElements() {
+    public void testPageTitleAndElements() throws InterruptedException {
         // Open the Discord login page
         driver.get("https://discord.com/login");
 
@@ -110,6 +110,7 @@ public class TestLogin extends BaseClass {
         // Check for login button
         WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit']"));
         System.out.println("Login button is displayed: " + loginButton.isDisplayed());
+        Thread.sleep(5000);
 
         // Make sure that the page title contains discord and there are no links on the login page
         assert pageTitle.contains("Discord");

@@ -18,7 +18,7 @@ import java.time.Duration;
 
 public class TestServer extends BaseClass {
 
-    @Test
+    @Test(priority = 0)
     public void createServerFromScratch() throws InterruptedException {
         // Login to Discord
         loginToDiscord();
@@ -58,7 +58,7 @@ public class TestServer extends BaseClass {
     }
 
     // 2. Create a server using a gaming template
-    @Test
+    @Test(priority = 1)
     public void createGamingTemplateServer() throws InterruptedException {
         // Login to Discord
         loginToDiscord();
@@ -66,9 +66,11 @@ public class TestServer extends BaseClass {
         // Click Add a Server
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#app-mount > div.appAsidePanelWrapper_a3002d > div.notAppAsidePanel_a3002d > div.app_a3002d > div > div.layers__960e4.layers__160d8 > div > div > div > div.content_c48ade > div.sidebar_c48ade > nav > ul > div.itemsContainer_ef3116 > div > div.tutorialContainer__650eb"))).click();
+        Thread.sleep(3000);
 
         // Click "Gaming" Template
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[text()='Gaming']"))).click();
+        Thread.sleep(3000);
 
         // Click for me and my friends
         WebElement forFriends = wait.until(ExpectedConditions.elementToBeClickable(
@@ -88,7 +90,7 @@ public class TestServer extends BaseClass {
     }
 
     // 3. Create a server for a club or community
-    @Test
+    @Test(priority = 2)
     public void createServerForClub() throws InterruptedException {
         // Login to Discord
         loginToDiscord();
@@ -96,6 +98,7 @@ public class TestServer extends BaseClass {
         // Add a server button
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#app-mount > div.appAsidePanelWrapper_a3002d > div.notAppAsidePanel_a3002d > div.app_a3002d > div > div.layers__960e4.layers__160d8 > div > div > div > div.content_c48ade > div.sidebar_c48ade > nav > ul > div.itemsContainer_ef3116 > div > div.tutorialContainer__650eb"))).click();
+        Thread.sleep(3000);
 
         //Navigate to create my own
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[text()='Create My Own']"))).click();
@@ -115,7 +118,7 @@ public class TestServer extends BaseClass {
     }
 
     // 4. Create a server using a study group template
-    @Test
+    @Test(priority = 3)
     public void createStudyGroupServer() throws InterruptedException {
         // Login to Discord
         loginToDiscord();
@@ -123,9 +126,11 @@ public class TestServer extends BaseClass {
         // CLick on Add a Server
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#app-mount > div.appAsidePanelWrapper_a3002d > div.notAppAsidePanel_a3002d > div.app_a3002d > div > div.layers__960e4.layers__160d8 > div > div > div > div.content_c48ade > div.sidebar_c48ade > nav > ul > div.itemsContainer_ef3116 > div > div.tutorialContainer__650eb"))).click();
+        Thread.sleep(3000);
 
         // Click "Gaming" Template
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[text()='Study Group']"))).click();
+        Thread.sleep(3000);
 
         // Click for me and my friends
         WebElement forFriends = wait.until(ExpectedConditions.elementToBeClickable(
@@ -144,7 +149,7 @@ public class TestServer extends BaseClass {
     }
 
     // 5. Cancel server creation from the modal
-    @Test
+    @Test(priority = 4)
     public void cancelServerCreation() throws InterruptedException {
         // Login to Discord
         loginToDiscord();
@@ -154,6 +159,7 @@ public class TestServer extends BaseClass {
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
                 "#app-mount > div.appAsidePanelWrapper_a3002d > div.notAppAsidePanel_a3002d > div.app_a3002d > div > div.layers__960e4.layers__160d8 > div > div > div > div.content_c48ade > div.sidebar_c48ade > nav > ul > div.itemsContainer_ef3116 > div > div.tutorialContainer__650eb"))
         ).click();
+        Thread.sleep(3000);
 
         // Click on "Create My Own"
         WebElement createOwn = wait.until(ExpectedConditions.elementToBeClickable(

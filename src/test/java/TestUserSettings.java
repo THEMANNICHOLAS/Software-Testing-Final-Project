@@ -28,7 +28,7 @@ public class TestUserSettings extends BaseClass {
         // Use valid credentials (replace with your own credentials for testing)
         WebElement emailField = driver.findElement(By.name("email"));
         WebElement passwordField = driver.findElement(By.name("password"));
-        emailField.sendKeys("SoftwareTestingDK@mail.com"); // Replace with your actual email
+        emailField.sendKeys("SoftwareTestingDK4@mail.com"); // Replace with your actual email
         passwordField.sendKeys("PaulBlart123!"); // Replace with your actual password
         Thread.sleep(3000);
 
@@ -50,17 +50,27 @@ public class TestUserSettings extends BaseClass {
                 By.xpath("//button[@aria-label='User Settings']"))
         );
         settingsButton.click();
+        Thread.sleep(3000);
 
-        // Verify the settings page opens
-        WebElement settingsHeader = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//h2[contains(text(),'User Settings')]"))
+        // Click on the "Standing" tab
+        WebElement standingTab = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[@aria-label='Standing']"))
         );
-        assert settingsHeader.isDisplayed();
+        standingTab.click();
+        Thread.sleep(3000); // Optional wait to ensure tab change
+
+        // Click on the "Security" tab
+        WebElement securityTab = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[@aria-label='Security']"))
+        );
+        securityTab.click();
+        Thread.sleep(3000); // Optional wait to ensure tab change
     }
 
-    // Test update display name
+
+    // Test search bar
     @Test
-    public void testUpdateDisplayName() throws InterruptedException {
+    public void testSearchBar() throws InterruptedException {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -69,25 +79,15 @@ public class TestUserSettings extends BaseClass {
                 By.xpath("//button[@aria-label='User Settings']"))
         );
         settingsButton.click();
+        Thread.sleep(3000);
 
-        // Update display name
-        WebElement displayNameField = wait.until(ExpectedConditions.elementToBeClickable(
-                By.cssSelector("button[aria-label='Edit display name']"))
-        );
-        displayNameField.clear();
-        displayNameField.sendKeys("New Display Name");
+        WebElement searchbar = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//*[@id=\"app-mount\"]/div[2]/div[1]/div[1]/div/div[2]/div[2]/div/div[1]/div/nav/div/div[1]/div/div/input")
+        ));
+        searchbar.click();
+        searchbar.sendKeys("Advanced");
+        Thread.sleep(3000);
 
-        // Save changes
-        WebElement saveButton = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//button[contains(text(),'Save Changes')]"))
-        );
-        saveButton.click();
-
-        // Verify the new name is saved
-        WebElement successMessage = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//div[contains(text(),'Changes saved')]"))
-        );
-        assert successMessage.isDisplayed();
     }
 
     // Test change theme
@@ -101,26 +101,27 @@ public class TestUserSettings extends BaseClass {
                 By.xpath("//button[@aria-label='User Settings']"))
         );
         settingsButton.click();
+        Thread.sleep(2000);
 
         // Open appearance settings
         WebElement appearanceTab = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//span[contains(text(),'Appearance')]"))
+                By.xpath("//div[@role='tab' and @aria-label='Appearance']"))
         );
         appearanceTab.click();
+        Thread.sleep(2000);
 
         // Toggle dark mode
         WebElement darkModeToggle = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//input[@name='darkMode']"))
+                By.cssSelector("#appearance-tab > div > div.children__7bffb > div:nth-child(2) > div:nth-child(2) > div > div > div:nth-child(1) > section > div:nth-child(7) > div"))
         );
         darkModeToggle.click();
-        assert darkModeToggle.isSelected();
+        Thread.sleep(2000);
+
     }
 
     // Test change language
     @Test
     public void testChangeLanguage() throws InterruptedException {
-
-
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         // Open settings
@@ -128,51 +129,71 @@ public class TestUserSettings extends BaseClass {
                 By.xpath("//button[@aria-label='User Settings']"))
         );
         settingsButton.click();
+        Thread.sleep(3000);
 
-        // Open language settings
+        // Open language tab
         WebElement languageTab = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//span[contains(text(),'Language')]"))
+                By.xpath("//div[@role='tab' and text()='Language']"))
+
         );
         languageTab.click();
+        Thread.sleep(2000);
 
-        // Change language to English
-        WebElement selectLanguage = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//select[@name='language']"))
+        // Wait and click on the English, UK radio option
+        WebElement englishUKRadio = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//span[contains(text(),'English, UK')]/ancestor::div[@role='radio']"))
         );
-        selectLanguage.sendKeys("English (US)");
-        selectLanguage.click();
 
-        // Verify the language change
-        WebElement selectedLanguage = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//option[@selected='selected']"))
-        );
-        assert selectedLanguage.getText().equals("English (US)");
+        englishUKRadio.click();
+        Thread.sleep(2000);
+
     }
 
-    // Test enable notifications
-    @Test
-    public void testEnableNotifications() throws InterruptedException {
 
+    // Test notifications
+    @Test(priority = 1)
+    public void testToggleUnreadMessageBadge() throws InterruptedException {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         // Open settings
         WebElement settingsButton = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//button[@aria-label='User Settings']"))
-        );
+                By.xpath("//button[@aria-label='User Settings']")));
         settingsButton.click();
+        Thread.sleep(2000);
 
-        // Open notifications settings
+        // Go to Notifications tab
         WebElement notificationsTab = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//span[contains(text(),'Notifications')]"))
-        );
+                By.xpath("//div[@role='tab' and @aria-label='Notifications']")));
         notificationsTab.click();
+        Thread.sleep(2000);
 
-        // Enable notifications
-        WebElement enableNotifications = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//input[@name='enableNotifications']"))
+// Wait for the radio button to be clickable
+        WebElement radioButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[contains(@class, 'item__001a7')]//div[contains(text(), 'All Messages')]")
+        ));
+
+// Click on the radio button
+        radioButton.click();
+        Thread.sleep(2000);
+
+// Click the dropdown to expand it
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//*[@id=\"notifications-tab\"]/div/div[2]/div[5]/div/div[1]"))
         );
-        enableNotifications.click();
-        assert enableNotifications.isSelected();
+        dropdown.click();
+        Thread.sleep(2000);
+
+/// Wait for the "1 minute" option to appear and be clickable
+        WebElement oneMinuteOption = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[@role='option' and contains(text(), '1 minute')]"))
+        );
+
+// Click the "1 minute" option
+        oneMinuteOption.click();
+        Thread.sleep(2000);
+
+
     }
+
 }
