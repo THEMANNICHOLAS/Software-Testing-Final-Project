@@ -68,20 +68,18 @@ public class TestDownload extends BaseClass {
         new File(this.DOWNLOAD_DIR);
         Thread.sleep(1000L);
         debDownload.click();
-        String debExpectedFile = "discord-0.0.90.deb";
+        String debExpectedFile = "discord-0.0.91.deb";
         File debFile = new File(this.DOWNLOAD_DIR + "/" + debExpectedFile);
         targzDownload.click();
-        String targzExpectedFile = "discord-0.0.90.tar";
+        String targzExpectedFile = "discord-0.0.91.tar.gz";
         File tarFile = new File(this.DOWNLOAD_DIR + "/" + targzExpectedFile);
 
-        for (int waitTime = 0; waitTime <60 && !debFile.exists() && !tarFile.exists(); ++waitTime) {
-            try{
-                Thread.sleep(1000);
-            }
-            catch(InterruptedException e){
-                e.printStackTrace();
-            }
+        int waited = 0;
+        while (waited < 60 && (!debFile.exists() || !tarFile.exists())) {
+            Thread.sleep(1000);
+            waited++;
         }
+
         Assert.assertTrue(debFile.exists());
         Assert.assertTrue(tarFile.exists());
     }
@@ -99,7 +97,7 @@ public class TestDownload extends BaseClass {
         macTestBuild.click();
 
         WebElement linuxDebTestBuild = this.driver.findElement(By.linkText("Linux deb"));
-        String linuxDebExpectedFile = "discord-ptb-0.0.136.deb";
+        String linuxDebExpectedFile = "discord-ptb-0.0.138.deb";
         File linuxDebDownloadFile = new File(this.DOWNLOAD_DIR + "/" + linuxDebExpectedFile);
         linuxDebTestBuild.click();
 
@@ -109,19 +107,19 @@ public class TestDownload extends BaseClass {
         windowTestBuild.click();
 
         WebElement linuxTarTestBuild = this.driver.findElement(By.linkText("Linux tar.gz"));
-        String linuxTarTestBuildExpectedFile = "discord-ptb-0.0.136.tar";
+        String linuxTarTestBuildExpectedFile = "discord-ptb-0.0.138.tar.gz";
         File linuxTarTestBuildDownloadFile = new File(this.DOWNLOAD_DIR + "/" + linuxTarTestBuildExpectedFile);
         linuxTarTestBuild.click();
 
         //TODO: make sure time for downloads is proper and that Discord is not kicking us from download
-        for(int waitTime = 0;
-            waitTime < 60 && !macDownloadFile.exists() && !linuxDebDownloadFile.exists() &&
-                    !windowTestBuildDownloadFile.exists() && !linuxTarTestBuildDownloadFile.exists(); ++waitTime) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        int waited = 0;
+        while (waited < 60 &&
+                (!macDownloadFile.exists() ||
+                        !linuxDebDownloadFile.exists() ||
+                        !windowTestBuildDownloadFile.exists() ||
+                        !linuxTarTestBuildDownloadFile.exists())) {
+            Thread.sleep(1000);
+            waited++;
         }
         Thread.sleep(1000);
         Assert.assertTrue(macDownloadFile.exists());
